@@ -2,6 +2,8 @@ import React,{Component} from 'react';
 import {View,Text,StyleSheet} from 'react-native';
 import {Input,MyButton} from './common';
 import firebase from 'firebase';
+import {connect} from 'react-redux';
+import {emailChanged, passwordChanged} from '../actions';
 
 class LoginForm extends Component{
     state ={
@@ -12,7 +14,7 @@ class LoginForm extends Component{
     }
 
     onButtonClicked(){
-        const{email,password}=this.state;
+        const{email,password}=this.props;
         this.setState({
             error:'',
             loading:true
@@ -40,7 +42,12 @@ class LoginForm extends Component{
         loading:false
         })
     }
-
+    onEmailChanged(text){
+        this.props.emailChanged(text);
+    }
+    onPasswordChanged(text){
+        this.props.passwordChanged(text);
+    }
     render(){
         const {error,loading}=this.state;
         const errorMsg =error ? (
@@ -48,28 +55,19 @@ class LoginForm extends Component{
         ):
         null;
 
-        
         return(
             <View style={{padding:30}}> 
                 <View>
                     <Input text='E-mail' inputPlaceHolder='Enter E-mail'
-                    onChangeText={(text)=>{
-                        this.setState({
-                            email:text
-                        })
-                    }}
-                    value={this.state.email}
+                    onChangeText={this.onEmailChanged.bind(this)}
+                    value={this.props.email}
                     />
                 </View>
                 <View>
                     <Input text='Password' inputPlaceHolder='Enter Password'
-                    onChangeText={(text)=>{
-                        this.setState({
-                            password:text
-                        })
-                    }}
+                    onChangeText={this.onPasswordChanged.bind(this)}
                     inputSecureTextEntry
-                    value={this.state.password}
+                    value={this.props.password}
                     />
                 </View>
                    {errorMsg}
@@ -100,5 +98,11 @@ errorStyle:{
     alignSelf:"center"
 }
 });
-
-export default LoginForm;
+const mapStateToProps = state => {
+    const {email ,password} = state.auth;
+    return{
+        email:email,
+        password:password
+    }
+}
+export default connect(mapStateToProps,{emailChanged,passwordChanged})(LoginForm);

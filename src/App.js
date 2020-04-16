@@ -18,12 +18,14 @@ import LoginForm from './components/loginform';
         messagingSenderId: "188076555183",
         appId: "1:188076555183:web:58fcbbe746143bef978d5a"
       };
-      firebase.initializeApp(firebaseConfig);
+      if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+       }
     }
     render(){
       return(
         <Provider store={createStore(reducers)}>
-          <View>
+          <View style ={{flex:1,justifyContent:'center'}}>
             <LoginForm/>
             </View>
         </Provider>
