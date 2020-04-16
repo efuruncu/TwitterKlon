@@ -3,45 +3,15 @@ import {View,Text,StyleSheet} from 'react-native';
 import {Input,MyButton} from './common';
 import firebase from 'firebase';
 import {connect} from 'react-redux';
-import {emailChanged, passwordChanged} from '../actions';
+import {emailChanged, passwordChanged,loginUser} from '../actions';
 
 class LoginForm extends Component{
-    state ={
-        email:'',
-        password:'',
-        error:'',
-        loading:false
-    }
 
     onButtonClicked(){
         const{email,password}=this.props;
-        this.setState({
-            error:'',
-            loading:true
-        })
-        firebase.auth().signInWithEmailAndPassword(email,password)
-        .then(this.onLoginSuccess.bind(this))
-        .catch(()=>{
-            firebase.auth().createUserWithEmailAndPassword(email,password)
-            .then(this.onLoginSuccess.bind(this))    
-            .catch(this.onLoginFailed.bind(this))
-        });
+        this.props.loginUser(email,password);
     }
 
-    onLoginSuccess(){
-        this.setState({
-            email:'',
-            password:'',
-            error:'',
-            loading:false  
-        })
-    }
-    onLoginFailed(){
-        this.setState({
-        error:'Authentication failed.',
-        loading:false
-        })
-    }
     onEmailChanged(text){
         this.props.emailChanged(text);
     }
@@ -49,7 +19,7 @@ class LoginForm extends Component{
         this.props.passwordChanged(text);
     }
     render(){
-        const {error,loading}=this.state;
+        const {error,loading}=this.props;
         const errorMsg =error ? (
         <Text style={styles.errorStyle}>{error}</Text>
         ):
@@ -99,10 +69,11 @@ errorStyle:{
 }
 });
 const mapStateToProps = state => {
-    const {email ,password} = state.auth;
+    const {email ,password,loading,error} = state.auth;
     return{
-        email:email,
-        password:password
+        email ,password,loading,error
+        
     }
 }
-export default connect(mapStateToProps,{emailChanged,passwordChanged})(LoginForm);
+export default connect(mapStateToProps,
+    {emailChanged,passwordChanged,loginUser})(LoginForm);
