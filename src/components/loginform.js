@@ -26,7 +26,7 @@ class LoginForm extends Component{
         null;
 
         return(
-            <View style={{padding:30}}> 
+            <View style={styles.loginContainer}> 
                 <View>
                     <Input text='E-mail' inputPlaceHolder='Enter E-mail'
                     onChangeText={this.onEmailChanged.bind(this)}
@@ -52,20 +52,17 @@ class LoginForm extends Component{
 }
 
 const styles=StyleSheet.create({
-buttonWrapper:{
-    marginTop:20,
-    height:49,
-    borderRadius:10,
-    backgroundColor:'white',
-    justifyContent:'center',
-    fontSize:18
-
-},
 errorStyle:{
     fontSize:20,
     color:'red',
     padding:5,
     alignSelf:"center"
+},
+loginContainer:{
+   flex:1,
+   justifyContent:'center',
+   padding:30,
+   backgroundColor:'#fff'
 }
 });
 const mapStateToProps = state => {
