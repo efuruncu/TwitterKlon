@@ -2,6 +2,8 @@ import React from 'react';
 import {Scene,Router} from 'react-native-router-flux';
 import LoginForm from './components/loginform';
 import Tweets from './components/tweets';
+import NewTweet from './components/newTweet';
+import UpdateTweet from './components/updateTweet';
 
 const RouterComp = ()=>{
     return(
@@ -19,6 +21,16 @@ const RouterComp = ()=>{
                     component={Tweets}
                     title='Tweets'
                     initial>
+                    </Scene>
+                    <Scene key='newTweet'
+                    component={NewTweet}
+                    title='New Tweet'
+                    >
+                    </Scene>
+                    <Scene key='updateTweet'
+                    component={UpdateTweet}
+                    title='Update / Delete Tweet'
+                    >
                     </Scene>
 
                 </Scene>
