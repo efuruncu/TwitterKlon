@@ -1,5 +1,5 @@
 import React from 'react';
-import {Scene,Router} from 'react-native-router-flux';
+import {Scene,Router,Actions} from 'react-native-router-flux';
 import LoginForm from './components/loginform';
 import Tweets from './components/tweets';
 import NewTweet from './components/newTweet';
@@ -16,22 +16,24 @@ const RouterComp = ()=>{
                         hideNavBar={true}
                         initial/>
                 </Scene>
-                <Scene key='main' >
+                <Scene key='main'>
                     <Scene key='tweets'
                     component={Tweets}
                     title='Tweets'
-                    initial>
-                    </Scene>
+                    rightTitle="New"
+                    onRight={()=>Actions.newTweet()}
+                    leftTitle='Update'
+                    onLeft={()=> Actions.updateTweet()}
+                    initial
+                    />
                     <Scene key='newTweet'
                     component={NewTweet}
                     title='New Tweet'
-                    >
-                    </Scene>
+                    />
                     <Scene key='updateTweet'
                     component={UpdateTweet}
                     title='Update / Delete Tweet'
-                    >
-                    </Scene>
+                    />
 
                 </Scene>
             </Scene>
